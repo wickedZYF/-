@@ -115,12 +115,10 @@
 
 
         <Button
-            android:id="@+id/baifen"
-            android:text="%"
-            android:textSize="50sp" />
-
-        <Button
             android:id="@+id/btn0"
+            android:layout_width="173dp"
+            android:layout_rowSpan="1"
+            android:layout_columnSpan="2"
             android:text="0"
             android:textSize="50sp" />
 

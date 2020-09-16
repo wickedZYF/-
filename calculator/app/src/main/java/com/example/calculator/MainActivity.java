@@ -10,7 +10,7 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;
-    Button jia, jian, cheng, chu, dian, sum, clear,baifen,huitui;
+    Button jia, jian, cheng, chu, dian, sum, clear,huitui;
     EditText edit;
 
 
@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         sum = (Button) findViewById(R.id.sum);
         dian = (Button) findViewById(R.id.dian);
         clear = (Button) findViewById(R.id.clear);
-        baifen = (Button) findViewById(R.id.baifen);
         huitui = (Button) findViewById(R.id.huitui);
         edit = (EditText) findViewById(R.id.edit);
 
@@ -63,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         sum.setOnClickListener(new Click());
         dian.setOnClickListener(new Click());
         clear.setOnClickListener(new Click());
-        baifen.setOnClickListener(new Click());
         huitui.setOnClickListener(new Click());
         edit.setOnClickListener(new Click());
     }
@@ -136,20 +134,7 @@ public class MainActivity extends AppCompatActivity {
                     edit.setText(ss);
                 }
                 break;
-                case R.id.baifen: {
-                    if (ss.length() == 0) {
-                        break;
-                    }
-                    else if (ss.length()>2)
-                    {
-                    ss = ss.substring(0,ss.length()-2)+"."+ss.substring((ss.length()-2),ss.length());
-                    edit.setText(ss);
-                    }
-                    else(ss.length()==2){
 
-                    }
-                }
-                break;
                 case R.id.dian: {
                     if (ss.length() == 0 || ss.indexOf(" ") == ss.length() - 3 || ss.lastIndexOf(".") > ss.indexOf(" ")) {
                         break;
