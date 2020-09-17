@@ -2,6 +2,7 @@ package com.example.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +11,7 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;
-    Button jia, jian, cheng, chu, dian, sum, clear,huitui;
+    Button jia, jian, cheng, chu, dian, sum, clear,huitui,zkh,ykh,gen,sin,cos,tan,pai,f,x,xf,xl,xy;
     EditText edit;
 
 
@@ -64,6 +65,43 @@ public class MainActivity extends AppCompatActivity {
         clear.setOnClickListener(new Click());
         huitui.setOnClickListener(new Click());
         edit.setOnClickListener(new Click());
+
+        Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
+        int ori = mConfiguration.orientation ; //获取屏幕方向
+
+        if(ori == mConfiguration.ORIENTATION_LANDSCAPE){
+
+            zkh = (Button) findViewById(R.id.zkh);
+            ykh = (Button) findViewById(R.id.ykh);
+            pai = (Button) findViewById(R.id.pai);
+            gen = (Button) findViewById(R.id.gen);
+            sin = (Button) findViewById(R.id.sin);
+            cos = (Button) findViewById(R.id.cos);
+            tan = (Button) findViewById(R.id.tan);
+            f = (Button) findViewById(R.id.f);
+            x = (Button) findViewById(R.id.x);
+            xf = (Button) findViewById(R.id.xf);
+            xl = (Button) findViewById(R.id.xl);
+            xy = (Button) findViewById(R.id.xy);
+
+
+
+
+            zkh.setOnClickListener(new Click());
+            ykh.setOnClickListener(new Click());
+            gen.setOnClickListener(new Click());
+            sin.setOnClickListener(new Click());
+            cos.setOnClickListener(new Click());
+            tan.setOnClickListener(new Click());
+            pai.setOnClickListener(new Click());
+            f.setOnClickListener(new Click());
+            x.setOnClickListener(new Click());
+            xf.setOnClickListener(new Click());
+            xl.setOnClickListener(new Click());
+            xy.setOnClickListener(new Click());
+
+        }
+
     }
 
 
