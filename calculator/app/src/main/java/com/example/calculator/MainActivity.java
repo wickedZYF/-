@@ -4,15 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;
     Button jia, jian, cheng, chu, dian, sum, clear,huitui,zkh,ykh,gen,sin,cos,tan,pai,f,x,xf,xl,xy;
-    EditText edit;
+    TextView edit;
 
 
     private String ss = "";
@@ -23,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
 
 
         btn1 = (Button) findViewById(R.id.btn1);
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         dian = (Button) findViewById(R.id.dian);
         clear = (Button) findViewById(R.id.clear);
         huitui = (Button) findViewById(R.id.huitui);
-        edit = (EditText) findViewById(R.id.edit);
+        edit = (TextView) findViewById(R.id.edit);
 
 
         btn1.setOnClickListener(new Click());
@@ -124,6 +129,32 @@ public class MainActivity extends AppCompatActivity {
                     ss += "0";
                     edit.setText(ss);
                 }
+                break;
+                case R.id.gen: {
+                    ss += "√";
+                    edit.setText(ss);
+                }
+                break;
+                case R.id.sin: {
+                    ss += "sin";
+                    edit.setText(ss);
+                }
+                break;
+                case R.id.cos: {
+                    ss += "cos";
+                    edit.setText(ss);
+                }
+                break;
+                case R.id.tan: {
+                    ss += "tan";
+                    edit.setText(ss);
+                }
+                break;
+                case R.id.pai: {
+                    ss += "π";
+                    edit.setText(ss);
+                }
+
                 break;
                 case R.id.btn1: {
                     ss += "1";
@@ -285,6 +316,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
+
         }
+
     }
 }
