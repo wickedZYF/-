@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import javax.xml.transform.Result;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;
@@ -131,28 +133,61 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
                 case R.id.gen: {
-                    ss += "√";
-                    edit.setText(ss);
+                    String str = edit.getText().toString();
+                    double b = Double.valueOf(str);
+                    edit.setText(Math.sqrt(b)+"");
                 }
                 break;
                 case R.id.sin: {
-                    ss += "sin";
-                    edit.setText(ss);
+                    String str = edit.getText().toString();
+                    double b = Double.valueOf(str);
+                    edit.setText(Math.sin(b*Math.PI/180)+"");
                 }
                 break;
                 case R.id.cos: {
-                    ss += "cos";
-                    edit.setText(ss);
+                    String str = edit.getText().toString();
+                    double b = Double.valueOf(str);
+                    edit.setText(Math.cos(b*Math.PI/180)+"");
                 }
                 break;
                 case R.id.tan: {
-                    ss += "tan";
-                    edit.setText(ss);
+                    String str = edit.getText().toString();
+                    double b = Double.valueOf(str);
+                    edit.setText(Math.tan(b*Math.PI/180)+"");
                 }
                 break;
                 case R.id.pai: {
-                    ss += "π";
-                    edit.setText(ss);
+                    edit.setText(Math.PI+"");
+                }
+
+                break;
+                case R.id.f: {
+                    String str = edit.getText().toString();
+                    double b = Double.valueOf(str);
+                    edit.setText(1/b+"");
+                }
+
+                break;
+                case R.id.x: {
+
+                }
+
+                break;
+                case R.id.xf: {
+                    String str = edit.getText().toString();
+                    double b = Double.valueOf(str);
+                    edit.setText(b*b+"");
+                }
+
+                break;case R.id.xl: {
+                    String str = edit.getText().toString();
+                    double b = Double.valueOf(str);
+                    edit.setText(b*b*b+"");
+                }
+
+                break;
+                case R.id.xy: {
+
                 }
 
                 break;
