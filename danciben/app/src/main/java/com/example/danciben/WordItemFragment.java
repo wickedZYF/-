@@ -6,6 +6,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -57,7 +58,7 @@ public class WordItemFragment extends ListFragment {
     public void refreshWordsList(String strWord) {
         WordsDB wordsDB=WordsDB.getWordsDB();
         if (wordsDB != null) {
-            ArrayList<Map<String, String>> items = wordsDB.SearchUseSql(strWord);
+            ArrayList<Map<String, String>> items = wordsDB.Search(strWord);
             if(items.size()>0){
                 SimpleAdapter adapter = new SimpleAdapter(getActivity(), items, R.layout.item,
                         new String[]{Words.Word._ID, Words.Word.COLUMN_NAME_WORD},
@@ -82,10 +83,11 @@ public class WordItemFragment extends ListFragment {
     }
   }
 
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        ListView mListView = (ListView) view.findViewById(android.R.id.list);
+        //为列表注册上下文菜单
+        ListView mListView = (ListView) view.findViewById(android.R.id.list);    //
+        //mListView.setOnCreateContextMenuListener(this);
         registerForContextMenu(mListView);
         return view;
     }
@@ -106,7 +108,7 @@ public class WordItemFragment extends ListFragment {
     AdapterView.AdapterContextMenuInfo info = null;
     View itemView = null;
     switch (item.getItemId()) {
-        case R.id.action_delete:
+        case R.id.delete:
     info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
     itemView = info.targetView;
     textId = (TextView) itemView.findViewById(R.id.textId);
@@ -115,7 +117,7 @@ public class WordItemFragment extends ListFragment {
     mListener.onDeleteDialog(strId);
     }
     break;
-    case R.id.action_update:
+    case R.id.change:
         info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         itemView = info.targetView;
         textId = (TextView) itemView.findViewById(R.id.textId);

@@ -1,12 +1,14 @@
 package com.example.danciben;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class WordsDB {
-    private static final String TAG = "myTag";
+    static Integer idd;
     private static WordsDBHelper mDbHelper;
     private static WordsDB instance=new WordsDB();
     public static WordsDB getWordsDB(){
@@ -22,21 +24,75 @@ public class WordsDB {
         mDbHelper.close();
     }
     public Words.WordDescription getSingleWord(String id) {
-
+        System.out.println("another"+id);
+        String selectSql = "select * from words where _id = ? ";
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor=db.rawQuery(selectSql,new String[]{id});
+        Words.WordDescription item =null;
+        while(cursor.moveToNext())
+        {
+            item=new Words.WordDescription(cursor.getString(0).toString(),cursor.getString(1).toString(),
+                    cursor.getString(2).toString(),cursor.getString(3).toString());
+        }
+        db.close();
+        return item;
     }
     public ArrayList<Map<String, String>> getAllWords() {
-
+        ArrayList<Map<String,String>> items=new ArrayList<Map<String,String>>();
+        String selectSql = "select * from words";
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor=db.rawQuery(selectSql,null);
+        if(cursor.getCount()==0)
+            WordsDB.idd=0;
+        else{
+            while(cursor.moveToNext())
+            {
+                Map<String,String> item=new HashMap<String,String>();
+                item.put(Words.Word._ID,cursor.getString(0).toString());
+                item.put(Words.Word.COLUMN_NAME_WORD,cursor.getString(1).toString());
+                items.add(item);
+            }
+            cursor.moveToLast();
+            WordsDB.idd=Integer.parseInt(cursor.getString(0));}
+        db.close();
+        return items;
     }
     private ArrayList<Map<String, String>> ConvertCursor2WordList(Cursor cursor) {
+        ArrayList<Map<String,String>> items=new ArrayList<Map<String,String>>();
+        while(cursor.moveToNext()) {
+            Map<String, String> item = new HashMap<String, String>();
+            item.put(Words.Word._ID,cursor.getString(0).toString());
+            item.put(Words.Word.COLUMN_NAME_WORD,cursor.getString(1).toString());
+            items.add(item);
+        }
+        return items;
+    }
+    public void Insert(String strWord, String strMeaning, String strSample) {
+
+        String insertSql ="insert into words(_id,word,meaning,sample) values (?,?,?,?)";
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.execSQL(insertSql,new String[]{WordsDB.idd+1+"",strWord,strMeaning,strSample});
+        db.close();
 
     }
-    public void InsertUserSql(String strWord, String strMeaning, String strSample) {}
-    public void Insert(String strWord, String strMeaning, String strSample) {}
-    public void DeleteUseSql(String strId) {}
-    public void Delete(String strId) {}
-    public void UpdateUseSql(String strId, String strWord, String strMeaning, String strSample) {}
-    public void Update(String strId, String strWord, String strMeaning, String strSample) {}
-    public ArrayList<Map<String, String>> SearchUseSql(String strWordSearch) {}
-    public ArrayList<Map<String, String>> Search(String strWordSearch) {}
+    public void Delete(String strId) {
+        String deleteSql = "delete from words where _id= ?";
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.execSQL(deleteSql,new String[]{strId});
+        db.close();
+    }
+    public void Update(String strId, String strWord, String strMeaning, String strSample) {
+        String updateSql = "update words set word= ? , meaning= ? ,sample=? where _id=?";
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.execSQL(updateSql,new String[]{strWord,strMeaning,strSample,strId});
+        db.close();
+    }
+    public ArrayList<Map<String, String>> Search(String strWordSearch) {
+        //String searchSql="select _id,word from words where word=?";
+        String sql="select * from words where word like ? order by word desc";
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor=db.rawQuery(sql,new String[]{"%"+strWordSearch+"%"});
+        return  ConvertCursor2WordList(cursor);
+    }
 
 }
