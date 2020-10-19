@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private FrameLayout content;
-    private TextView tv1,tv2;
+    private TextView tv1;
     private FragmentManager fm;
     private FragmentTransaction ft;
     @Override
