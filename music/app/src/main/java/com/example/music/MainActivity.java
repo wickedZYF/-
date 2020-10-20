@@ -9,13 +9,20 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private FrameLayout content;
     private TextView tv1;
     private FragmentManager fm;
     private FragmentTransaction ft;
+    public static ArrayList<String> arrayList = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        arrayList.add("music0");
+        arrayList.add("music1");arrayList.add("music2");arrayList.add("music3");arrayList.add("music4");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         content=(FrameLayout)findViewById(R.id.content);

@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.ObjectAnimator;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +16,10 @@ import android.os.IBinder;
 import android.os.Message;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -25,6 +30,7 @@ public class Music_Activity extends AppCompatActivity implements View.OnClickLis
     private static TextView tv_progress,tv_total,name_song;
     private ObjectAnimator animator;
     private MusicService.MusicControl musicControl;
+
 
     String name;
     Intent intent1,intent2;
@@ -165,11 +171,15 @@ public class Music_Activity extends AppCompatActivity implements View.OnClickLis
                 isUnbind=true;
                 finish();
                 break;
+
         }
     }
+
     @Override
     protected void onDestroy(){
         super.onDestroy();
         unbind(isUnbind);//解绑服务
     }
+
+
 }

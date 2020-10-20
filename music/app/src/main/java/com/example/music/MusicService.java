@@ -15,6 +15,9 @@ import java.util.TimerTask;
 public class MusicService extends Service {
     private MediaPlayer player;
     private Timer timer;
+    private int pausePosition;
+    private int currentMusicIndex;
+
     public MusicService() {}
     @Override
     public  IBinder onBind(Intent intent){
@@ -24,6 +27,18 @@ public class MusicService extends Service {
     public void onCreate(){
         super.onCreate();
         player=new MediaPlayer();//创建音乐播放器对象
+    }
+
+
+    public void onStartCommand(){
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                currentMusicIndex++;
+
+            }
+        });
     }
     public void addTimer(){ //添加计时器用于设置音乐播放器中的播放进度条
         if(timer==null){
@@ -71,6 +86,7 @@ public class MusicService extends Service {
             player.seekTo(progress);//设置音乐的播放位置
         }
     }
+
     @Override
     public void onDestroy(){
         super.onDestroy();

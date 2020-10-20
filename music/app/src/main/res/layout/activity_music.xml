@@ -76,7 +76,42 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@drawable/btn_bg_selector"
-            android:text="退出"/>
+            android:text="退出"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#000000" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/up"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg_selector"
+            android:text="上首"/>
+        <Button
+            android:id="@+id/down"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg_selector"
+            android:text="下首"/>
+        <Button
+            android:id="@+id/random"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg_selector"
+            android:text="随机"
+            />
     </LinearLayout>
 
 </LinearLayout>
