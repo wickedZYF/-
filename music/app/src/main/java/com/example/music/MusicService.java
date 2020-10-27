@@ -8,17 +8,17 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MusicService extends Service {
-    private MediaPlayer player;
+    static MediaPlayer player;
     private Timer timer;
-    private int pausePosition;
-    private int currentMusicIndex;
 
-    public MusicService() {}
+
+
     @Override
     public  IBinder onBind(Intent intent){
         return new MusicControl();
@@ -27,19 +27,27 @@ public class MusicService extends Service {
     public void onCreate(){
         super.onCreate();
         player=new MediaPlayer();//创建音乐播放器对象
+//        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//                MainActivity.pos=MainActivity.search(MainActivity.songname);
+//                MainActivity.pos++;
+//                MainActivity.songname=MainActivity.arrayList.get(MainActivity.pos);
+//                MusicService.player.reset();
+//                Uri uri=Uri.parse("android.resource://"+getPackageName()+"/raw/"+"music"+MainActivity.pos);
+//                MusicService.player = MediaPlayer.create(getApplicationContext(), uri);
+//                Music_Activity.iv_music.setImageResource(frag1.icons[MainActivity.pos]);
+//                Music_Activity.name_song.setText(MainActivity.arrayList.get(MainActivity.pos));
+//                MusicService.player.start();//播放音乐
+//
+//            }
+//        });
     }
 
 
-    public void onStartCommand(){
-        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                currentMusicIndex++;
 
-            }
-        });
-    }
     public void addTimer(){ //添加计时器用于设置音乐播放器中的播放进度条
         if(timer==null){
             timer=new Timer();//创建计时器对象
@@ -95,4 +103,10 @@ public class MusicService extends Service {
         player.release();//释放占用的资源
         player=null;//将player置为空
     }
+
+
 }
+
+
+
+

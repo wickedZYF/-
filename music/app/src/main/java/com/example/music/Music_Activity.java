@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,26 +24,32 @@ import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.io.BufferedInputStream;
+import java.util.ArrayList;
+import java.util.Random;
+
 import static java.lang.Integer.parseInt;
 
 public class Music_Activity extends AppCompatActivity implements View.OnClickListener{
     private static SeekBar sb;
-    private static TextView tv_progress,tv_total,name_song;
+     static TextView tv_progress,tv_total,name_song;
     private ObjectAnimator animator;
     private MusicService.MusicControl musicControl;
 
-
+   static ImageView iv_music;
     String name;
     Intent intent1,intent2;
     MyServiceConn conn;
     private boolean isUnbind =false;//记录服务是否被解绑
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music);
         intent1=getIntent();
         init();
     }
+
     private void init(){
         tv_progress=(TextView)findViewById(R.id.tv_progress);
         tv_total=(TextView)findViewById(R.id.tv_total);
@@ -53,6 +60,9 @@ public class Music_Activity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.btn_pause).setOnClickListener(this);
         findViewById(R.id.btn_continue_play).setOnClickListener(this);
         findViewById(R.id.btn_exit).setOnClickListener(this);
+        findViewById(R.id.up).setOnClickListener(this);
+        findViewById(R.id.down).setOnClickListener(this);
+        findViewById(R.id.random).setOnClickListener(this);
 
         name=intent1.getStringExtra("name");
         name_song.setText(name);
@@ -66,9 +76,23 @@ public class Music_Activity extends AppCompatActivity implements View.OnClickLis
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //进度条改变时，会调用此方法
                 if (progress==seekBar.getMax()){//当滑动条到末端时，结束动画
-                    animator.pause();//停止播放动画
+                    MainActivity.pos=MainActivity.search(MainActivity.songname);
+                    if(MainActivity.pos==4){
+                        MainActivity.pos=0;
+                    }
+                    else{
+                        MainActivity.pos++;}
+                    MainActivity.songname=MainActivity.arrayList.get(MainActivity.pos);
+                    MusicService.player.reset();
+                    Uri uri=Uri.parse("android.resource://"+getPackageName()+"/raw/"+"music"+MainActivity.pos);
+                    MusicService.player = MediaPlayer.create(getApplicationContext(), uri);
+                    Music_Activity.iv_music.setImageResource(frag1.icons[MainActivity.pos]);
+                    Music_Activity.name_song.setText(MainActivity.arrayList.get(MainActivity.pos));
+                    MusicService.player.start();//播放音乐
                 }
+
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {//滑动条开始滑动时调用
             }
@@ -79,7 +103,7 @@ public class Music_Activity extends AppCompatActivity implements View.OnClickLis
                 musicControl.seekTo(progress);//改变播放进度
             }
         });
-        ImageView iv_music=(ImageView)findViewById(R.id.iv_music);
+        iv_music=(ImageView)findViewById(R.id.iv_music);
         String position= intent1.getStringExtra("position");
         int i=parseInt(position);
         iv_music.setImageResource(frag1.icons[i]);
@@ -148,6 +172,7 @@ public class Music_Activity extends AppCompatActivity implements View.OnClickLis
             unbindService(conn);//解绑服务
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onClick(View v) {
@@ -171,10 +196,55 @@ public class Music_Activity extends AppCompatActivity implements View.OnClickLis
                 isUnbind=true;
                 finish();
                 break;
+            case R.id.up:
+                up();
+                break;
 
+            case R.id.down:
+                down();
+                break;
+
+            case R.id.random:
+                random();
+                break;
         }
     }
+    public void up() {
+        if(MainActivity.pos==0){
+            MainActivity.pos=4;
+        }
+        else{
+            MainActivity.pos--;}
+        MusicService.player.reset();
+        Uri uri=Uri.parse("android.resource://"+getPackageName()+"/raw/"+"music"+MainActivity.pos);
+         MusicService.player = MediaPlayer.create(getApplicationContext(), uri);
+        name_song.setText(MainActivity.arrayList.get(MainActivity.pos));
+        iv_music.setImageResource(frag1.icons[MainActivity.pos]);
+        MusicService.player.start();//播放音乐
+    }
+    private void down() {
+        if(MainActivity.pos==4){
+            MainActivity.pos=0;
+        }
+        else{
+            MainActivity.pos++;}
+        MusicService.player.reset();
+        Uri uri=Uri.parse("android.resource://"+getPackageName()+"/raw/"+"music"+MainActivity.pos);
+        MusicService.player = MediaPlayer.create(getApplicationContext(), uri);
+        iv_music.setImageResource(frag1.icons[MainActivity.pos]);
+        name_song.setText(MainActivity.arrayList.get(MainActivity.pos));
+        MusicService.player.start();//播放音乐
+    }
 
+    private void random(){
+        MainActivity.pos = new Random().nextInt(MainActivity.arrayList.size());
+        MusicService.player.reset();
+        Uri uri=Uri.parse("android.resource://"+getPackageName()+"/raw/"+"music"+MainActivity.pos);
+        MusicService.player = MediaPlayer.create(getApplicationContext(), uri);
+        iv_music.setImageResource(frag1.icons[MainActivity.pos]);
+        name_song.setText(MainActivity.arrayList.get(MainActivity.pos));
+        MusicService.player.start();//播放音乐
+    }
     @Override
     protected void onDestroy(){
         super.onDestroy();

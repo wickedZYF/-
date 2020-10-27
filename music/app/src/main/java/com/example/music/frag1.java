@@ -1,5 +1,6 @@
 package com.example.music;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,10 @@ public class frag1 extends Fragment {
     private View view;
     public String[] name={"Flash Funk","彼女は旅に出る","summertime","sweets parade","変態"};
     public static int[] icons={R.drawable.music0,R.drawable.music1,R.drawable.music2,R.drawable.music3,R.drawable.music4};
+    private OnFragmentInteractionListener mListener;
+    public interface OnFragmentInteractionListener {
+        public void onWordItemClick(String id);
+    }
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view=inflater.inflate(R.layout.music_list,null);
@@ -26,6 +31,13 @@ public class frag1 extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (null != mListener) {
+                    TextView textView = (TextView) view.findViewById(R.id.item_name);
+                    if (textView != null) {
+                        mListener.onWordItemClick(textView.getText().toString());
+                    }
+                }
+
                 Intent intent=new Intent(frag1.this.getContext(),Music_Activity.class);//创建Intent对象，启动check
                 //将数据存入Intent对象
                 intent.putExtra("name",name[position]);
@@ -53,6 +65,14 @@ public class frag1 extends Fragment {
             iv.setImageResource(icons[i]);
             return view;
         }
+    }
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mListener = (OnFragmentInteractionListener) getActivity();
+    }
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
 

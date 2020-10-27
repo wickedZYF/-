@@ -11,18 +11,23 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,frag1.OnFragmentInteractionListener {
     private FrameLayout content;
     private TextView tv1;
     private FragmentManager fm;
     private FragmentTransaction ft;
+    static String  songname;
+    static int  pos;
     public static ArrayList<String> arrayList = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        arrayList.add("music0");
-        arrayList.add("music1");arrayList.add("music2");arrayList.add("music3");arrayList.add("music4");
 
+        arrayList.add("Flash Funk");
+        arrayList.add("彼女は旅に出る");
+        arrayList.add("summertime");
+        arrayList.add("sweets parade");
+        arrayList.add("変態");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         content=(FrameLayout)findViewById(R.id.content);
@@ -50,5 +55,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         ft.commit();
+    }
+
+    @Override
+    public void onWordItemClick(String id) {
+        songname=id;
+       pos=search(songname);
+    }
+    static int search(String songname) {
+        int a=0;
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (songname.equals(arrayList.get(i))) {
+                 a = i;
+                break;
+            }
+
+        }
+        return a;
     }
 }

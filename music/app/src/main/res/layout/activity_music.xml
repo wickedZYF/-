@@ -103,6 +103,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_bg_selector"
             android:text="下首"/>
+
         <Button
             android:id="@+id/random"
             android:layout_width="0dp"
