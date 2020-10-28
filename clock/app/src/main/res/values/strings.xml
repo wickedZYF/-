@@ -1,0 +1,12 @@
+<resources>
+     <string name="app_name">Clock</string>
+    <string name="addAlarm">添加闹钟</string>
+    <string name="play_alarm">闹铃响起来了！</string>
+    <string name="maohao">:</string>
+    <string name="start">开始</string>
+    <string name="reset">重置</string>
+    <string name="pause">暂停</string>
+    <string name="next">继续</string>
+    <string name="point">.</string>
+    <string name="lap">计时</string>
+</resources>
